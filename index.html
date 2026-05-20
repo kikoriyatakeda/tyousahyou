@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>森の工場事業実施計画 調査フォーム</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* フォント設定など */
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  
+  <div class="py-8 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    
+    <!-- ヘッダー部分 -->
+    <div class="text-center mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center justify-center gap-3">
+        <i class="fa-solid fa-file-lines text-green-600 text-3xl"></i>
+        森の工場事業実施計画作成予定調査表
+      </h1>
+      <p class="mt-2 text-sm text-gray-600">※面積の単位は「ha（ヘクタール）」です。</p>
+    </div>
+
+    <form id="myForm" onsubmit="submitForm(event)" class="space-y-6">
+      
+      <!-- 共通情報セクション -->
+      <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+        <div class="px-4 py-5 sm:px-6 bg-green-50 border-b border-green-100 flex items-center gap-2">
+          <i class="fa-solid fa-building text-green-700"></i>
+          <h3 class="text-lg leading-6 font-medium text-green-900">基本情報</h3>
+        </div>
+        <div class="p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">事務所</label>
+            <div class="mt-1">
+              <input type="text" id="office" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="例: 中央事務所">
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">事業体名</label>
+            <div class="mt-1">
+              <input type="text" id="organizationName" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="例: 〇〇森林組合">
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">計画書 提出時期</label>
+            <div class="mt-1">
+              <input type="text" id="submissionTiming" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="例: R8年5月">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 新規・更新セクション -->
+      <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+        <div class="px-4 py-5 sm:px-6 bg-blue-50 border-b border-blue-100 flex items-center gap-2">
+          <i class="fa-solid fa-chart-line text-blue-700"></i>
+          <h3 class="text-lg leading-6 font-medium text-blue-900">新規・更新</h3>
+        </div>
+        <div class="p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              <i class="fa-solid fa-location-dot text-gray-400"></i> 地区名
+            </label>
+            <div class="mt-1">
+              <input type="text" id="new_districtName" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">面積 (ha)</label>
+            <div class="mt-1">
+              <input type="number" step="0.01" id="new_area" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="0.00">
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              <i class="fa-solid fa-calendar-days text-gray-400"></i> 計画期間
+            </label>
+            <div class="mt-1">
+              <input type="number" id="new_period" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="年数">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 変更(拡大・縮小)セクション -->
+      <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+        <div class="px-4 py-5 sm:px-6 bg-orange-50 border-b border-orange-100 flex items-center gap-2">
+          <i class="fa-solid fa-arrows-rotate text-orange-700"></i>
+          <h3 class="text-lg leading-6 font-medium text-orange-900">変更 (拡大・縮小)</h3>
+        </div>
+        <div class="p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 border-b border-gray-100 pb-6">
+          <div class="sm:col-span-3">
+            <label class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              <i class="fa-solid fa-location-dot text-gray-400"></i> 地区名
+            </label>
+            <div class="mt-1">
+              <input type="text" id="change_districtName" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+            </div>
+          </div>
+          <div class="sm:col-span-3">
+            <label class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              <i class="fa-solid fa-calendar-days text-gray-400"></i> 計画期間
+            </label>
+            <div class="mt-1">
+              <input type="number" id="change_period" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="年数">
+            </div>
+          </div>
+        </div>
+        <div class="p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3 bg-gray-50/50">
+          <div class="sm:col-span-1">
+            <label class="block text-sm font-medium text-gray-700">既存面積 (ha)</label>
+            <div class="mt-1">
+              <input type="number" step="0.01" id="change_existingArea" oninput="calculateTotal()" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="0.00">
+            </div>
+          </div>
+          <div class="sm:col-span-1">
+            <label class="block text-sm font-medium text-gray-700">変更面積 (ha)</label>
+            <div class="mt-1">
+              <input type="number" step="0.01" id="change_modifiedArea" oninput="calculateTotal()" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="±0.00">
+            </div>
+            <p class="mt-1 text-xs text-gray-500">※縮小の場合はマイナスを入力</p>
+          </div>
+          <div class="sm:col-span-1">
+            <label class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              合計面積 (ha)
+              <i class="fa-solid fa-circle-exclamation text-gray-400" title="自動計算されます"></i>
+            </label>
+            <div class="mt-1">
+              <input type="number" step="0.01" id="change_totalArea" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border bg-gray-100 font-bold" placeholder="0.00" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 皆伐・再造林タイプセクション -->
+      <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+        <div class="px-4 py-5 sm:px-6 bg-purple-50 border-b border-purple-100 flex items-center gap-2">
+          <i class="fa-solid fa-scissors text-purple-700"></i>
+          <h3 class="text-lg leading-6 font-medium text-purple-900">皆伐・再造林タイプ</h3>
+        </div>
+        <div class="p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              <i class="fa-solid fa-location-dot text-gray-400"></i> 地区名
+            </label>
+            <div class="mt-1">
+              <input type="text" id="clearCut_districtName" class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">面積 (ha)</label>
+            <div class="mt-1">
+              <input type="number" step="0.01" id="clearCut_area" class="focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="0.00">
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              <i class="fa-solid fa-calendar-days text-gray-400"></i> 計画期間
+            </label>
+            <div class="mt-1">
+              <input type="number" id="clearCut_period" class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="年数">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 送信ボタン -->
+      <div class="flex justify-end pt-4">
+        <button type="submit" id="submitBtn" class="inline-flex justify-center items-center gap-2 py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+          <i id="spinner" class="fa-solid fa-spinner fa-spin" style="display: none;"></i>
+          <i id="saveIcon" class="fa-solid fa-floppy-disk"></i>
+          <span id="btnText">データを保存する</span>
+        </button>
+      </div>
+      
+    </form>
+  </div>
+
+  <script>
+    // 変更面積の自動計算
+    function calculateTotal() {
+      const existing = parseFloat(document.getElementById('change_existingArea').value) || 0;
+      const modified = parseFloat(document.getElementById('change_modifiedArea').value) || 0;
+      document.getElementById('change_totalArea').value = (existing + modified).toFixed(2);
+    }
+
+    // フォーム送信処理
+    function submitForm(event) {
+      event.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const spinner = document.getElementById('spinner');
+      const saveIcon = document.getElementById('saveIcon');
+      
+      // UIを送信中状態に変更
+      submitBtn.disabled = true;
+      submitBtn.classList.replace('bg-green-600', 'bg-green-400');
+      submitBtn.classList.replace('hover:bg-green-700', 'hover:bg-green-400');
+      btnText.textContent = '保存中...';
+      spinner.style.display = 'inline-block';
+      saveIcon.style.display = 'none';
+
+      // フォームデータの収集
+      const formData = {
+        office: document.getElementById('office').value,
+        organizationName: document.getElementById('organizationName').value,
+        submissionTiming: document.getElementById('submissionTiming').value,
+        
+        new_districtName: document.getElementById('new_districtName').value,
+        new_area: document.getElementById('new_area').value,
+        new_period: document.getElementById('new_period').value,
+        
+        change_districtName: document.getElementById('change_districtName').value,
+        change_existingArea: document.getElementById('change_existingArea').value,
+        change_modifiedArea: document.getElementById('change_modifiedArea').value,
+        change_totalArea: document.getElementById('change_totalArea').value,
+        change_period: document.getElementById('change_period').value,
+        
+        clearCut_districtName: document.getElementById('clearCut_districtName').value,
+        clearCut_area: document.getElementById('clearCut_area').value,
+        clearCut_period: document.getElementById('clearCut_period').value
+      };
+
+      // プレビュー環境（GAS外）で実行された場合のモック処理
+      if (typeof google === 'undefined') {
+        setTimeout(() => {
+          alert('※プレビュー環境のため保存はシミュレーションです。\n実際のGAS環境ではスプレッドシートに保存されます。\n\nデータ: ' + JSON.stringify(formData, null, 2));
+          resetButton();
+        }, 1000);
+        return;
+      }
+
+      // GASのサーバー側関数(processForm)を呼び出し
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (response === 'Success') {
+            alert('スプレッドシートにデータを保存しました！');
+            document.getElementById('myForm').reset(); // フォームをリセット
+          } else {
+            alert('エラーが発生しました: ' + response);
+          }
+          resetButton();
+        })
+        .withFailureHandler(function(error) {
+          alert('通信に失敗しました。');
+          resetButton();
+        })
+        .processForm(formData);
+    }
+
+    // ボタンの状態を元に戻す
+    function resetButton() {
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const spinner = document.getElementById('spinner');
+      const saveIcon = document.getElementById('saveIcon');
+      
+      submitBtn.disabled = false;
+      submitBtn.classList.replace('bg-green-400', 'bg-green-600');
+      submitBtn.classList.replace('hover:bg-green-400', 'hover:bg-green-700');
+      btnText.textContent = 'データを保存する';
+      spinner.style.display = 'none';
+      saveIcon.style.display = 'inline-block';
+    }
+  </script>
+</body>
+</html>

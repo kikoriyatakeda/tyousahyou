@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>森の工場事業実施計画 調査フォーム</title>
+  <title>令和8年度森の工場事業実施計画 調査フォーム</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -23,13 +23,38 @@
     <div class="text-center mb-8">
       <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center justify-center gap-3">
         <i class="fa-solid fa-file-lines text-green-600 text-3xl"></i>
-        森の工場事業実施計画作成予定調査表
+        令和8年度 森の工場事業実施計画作成予定調査表
       </h1>
       <p class="mt-2 text-sm text-gray-600">※面積の単位は「ha（ヘクタール）」です。</p>
     </div>
 
+    <!-- 候補リストの定義 (画面ロード時にGASから取得して中身が埋まります) -->
+    <datalist id="office-list"></datalist>
+    <datalist id="org-list"></datalist>
+    <datalist id="district-list"></datalist>
+
     <form id="myForm" onsubmit="submitForm(event)" class="space-y-6">
       
+      <!-- 対象年度セクション -->
+      <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
+          <i class="fa-solid fa-calendar-check text-gray-700"></i>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">対象年度</h3>
+        </div>
+        <div class="p-6">
+          <label class="block text-sm font-medium text-gray-700">年度を選択してください</label>
+          <div class="mt-1">
+            <select id="targetYear" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:max-w-xs sm:text-sm border-gray-300 rounded-md p-2 border bg-white">
+              <option value="令和6年度">令和6年度</option>
+              <option value="令和7年度">令和7年度</option>
+              <option value="令和8年度" selected>令和8年度</option>
+              <option value="令和9年度">令和9年度</option>
+              <option value="令和10年度">令和10年度</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <!-- 共通情報セクション -->
       <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
         <div class="px-4 py-5 sm:px-6 bg-green-50 border-b border-green-100 flex items-center gap-2">
@@ -39,14 +64,14 @@
         <div class="p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
           <div class="sm:col-span-2">
             <label class="block text-sm font-medium text-gray-700">事務所</label>
-            <div class="mt-1">
-              <input type="text" id="office" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="例: 中央事務所">
+            <div class="mt-1 relative">
+              <input type="text" id="office" list="office-list" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="例: 中央事務所">
             </div>
           </div>
           <div class="sm:col-span-2">
             <label class="block text-sm font-medium text-gray-700">事業体名</label>
             <div class="mt-1">
-              <input type="text" id="organizationName" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="例: 〇〇森林組合">
+              <input type="text" id="organizationName" list="org-list" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="例: 〇〇森林組合">
             </div>
           </div>
           <div class="sm:col-span-2">
@@ -70,7 +95,7 @@
               <i class="fa-solid fa-location-dot text-gray-400"></i> 地区名
             </label>
             <div class="mt-1">
-              <input type="text" id="new_districtName" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+              <input type="text" id="new_districtName" list="district-list" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="候補から選択 or 直接入力">
             </div>
           </div>
           <div class="sm:col-span-2">
@@ -102,7 +127,7 @@
               <i class="fa-solid fa-location-dot text-gray-400"></i> 地区名
             </label>
             <div class="mt-1">
-              <input type="text" id="change_districtName" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+              <input type="text" id="change_districtName" list="district-list" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="候補から選択 or 直接入力">
             </div>
           </div>
           <div class="sm:col-span-3">
@@ -152,7 +177,7 @@
               <i class="fa-solid fa-location-dot text-gray-400"></i> 地区名
             </label>
             <div class="mt-1">
-              <input type="text" id="clearCut_districtName" class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+              <input type="text" id="clearCut_districtName" list="district-list" class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="候補から選択 or 直接入力">
             </div>
           </div>
           <div class="sm:col-span-2">
@@ -185,6 +210,35 @@
   </div>
 
   <script>
+    // 画面ロード時にスプレッドシートから候補リストを取得する
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof google !== 'undefined') {
+        google.script.run
+          .withSuccessHandler(function(data) {
+            populateDatalist('office-list', data.offices);
+            populateDatalist('org-list', data.organizations);
+            populateDatalist('district-list', data.districts);
+          })
+          .withFailureHandler(function(error) {
+            console.error("候補リストの取得に失敗しました:", error);
+          })
+          .getSuggestions();
+      }
+    });
+
+    // datalistに<option>要素を追加する関数
+    function populateDatalist(listId, items) {
+      const dataList = document.getElementById(listId);
+      dataList.innerHTML = '';
+      items.forEach(function(item) {
+        if (item) {
+          const option = document.createElement('option');
+          option.value = item;
+          dataList.appendChild(option);
+        }
+      });
+    }
+
     // 変更面積の自動計算
     function calculateTotal() {
       const existing = parseFloat(document.getElementById('change_existingArea').value) || 0;
@@ -211,6 +265,7 @@
 
       // フォームデータの収集
       const formData = {
+        targetYear: document.getElementById('targetYear').value,
         office: document.getElementById('office').value,
         organizationName: document.getElementById('organizationName').value,
         submissionTiming: document.getElementById('submissionTiming').value,
@@ -245,6 +300,14 @@
           if (response === 'Success') {
             alert('スプレッドシートにデータを保存しました！');
             document.getElementById('myForm').reset(); // フォームをリセット
+            
+            // 保存成功後、最新のデータを候補リストに再反映する
+            google.script.run.withSuccessHandler(function(data) {
+              populateDatalist('office-list', data.offices);
+              populateDatalist('org-list', data.organizations);
+              populateDatalist('district-list', data.districts);
+            }).getSuggestions();
+
           } else {
             alert('エラーが発生しました: ' + response);
           }
